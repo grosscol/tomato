@@ -24,16 +24,20 @@ module Tomato
 
     desc "install", "Create an empty config"
     def install
-      puts "Installing #{Tomato.config_path} with sensible defaults."
-      puts "You'll want to change these if not on ubuntu."
-      puts "And add slack api keys"
-      content = YAML.dump({
-        "slack" => [],
-        "log_path" => File.expand_path("~/.tomato.log"),
-        "work_sound" => "/usr/share/sounds/ubuntu/stereo/desktop-logout.ogg",
-        "rest_sound" => "/usr/share/sounds/ubuntu/stereo/system-ready.ogg"
-      })
-      File.write(Tomato.config_path, content)
+      if File.exist?(Tomato.config_path)
+        puts "A config file exists at #{Tomato.config_path}, exiting"
+      else
+        puts "Installing #{Tomato.config_path} with sensible defaults."
+        puts "You'll want to change these if not on ubuntu."
+        puts "And add slack api keys"
+        content = YAML.dump({
+          "slack" => [],
+          "log_path" => File.expand_path("~/.tomato.log"),
+          "work_sound" => "/usr/share/sounds/ubuntu/stereo/desktop-logout.ogg",
+          "rest_sound" => "/usr/share/sounds/ubuntu/stereo/system-ready.ogg"
+        })
+        File.write(Tomato.config_path, content)
+      end
     end
 
     private
