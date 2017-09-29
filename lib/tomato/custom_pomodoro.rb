@@ -31,6 +31,14 @@ module Tomato
       end
     end
 
+    def add_stdout_hooks
+      pomo.add_before_start {
+        puts "Working for #{pomo.work_time} minutes (until #{(Time.now + (pomo.work_time * 60)).strftime("%I:%M")})."
+      }
+      pomo.add_after_work {
+        puts "Resting for #{pomo.rest_time} minutes (until #{(Time.now + (pomo.rest_time * 60)).strftime("%I:%M")})."
+      }
+    end
 
     def add_ambiance_hooks
       pomo.add_before_start { ambiance.start }
@@ -64,6 +72,7 @@ module Tomato
       add_slack_hooks
       add_notify_hooks
       add_log_hooks
+      add_stdout_hooks
     end
 
   end
