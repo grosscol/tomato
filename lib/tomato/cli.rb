@@ -7,9 +7,14 @@ module Tomato
       banner: "Minutes to work"
     option :rest, default: 5, type: :numeric, aliases: "-r",
       banner: "Minutes to rest"
+    option :ambiance, type: :string, aliases: "-a",
+      banner: "Sound to play while working, specified in config"
     desc "start [options] SUBJECT", "Start a tomato with SUBJECT"
     def start(subject)
-      tomato = CustomPomodoro.new(Pomodoro.new(subject, options[:work], options[:rest]))
+      tomato = CustomPomodoro.new(
+        Pomodoro.new(subject, options[:work], options[:rest]),
+        Ambiance.new(config.ambiance[options[:ambiance]])
+      )
       Signal.trap("INT") do
         tomato.cancel
         exit
@@ -34,7 +39,8 @@ module Tomato
           "slack" => [],
           "log_path" => File.expand_path("~/.tomato.log"),
           "work_sound" => "/usr/share/sounds/ubuntu/stereo/desktop-logout.ogg",
-          "rest_sound" => "/usr/share/sounds/ubuntu/stereo/system-ready.ogg"
+          "rest_sound" => "/usr/share/sounds/ubuntu/stereo/system-ready.ogg",
+          "ambiance"   => {}
         })
         File.write(Tomato.config_path, content)
       end

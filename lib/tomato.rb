@@ -1,4 +1,5 @@
 require "tomato/version"
+require "tomato/ambiance"
 require "tomato/cli"
 require "tomato/notifier"
 require "tomato/pomodoro"
