@@ -3,6 +3,7 @@ require "thor"
 module Tomato
 
   class CLI < Thor
+
     option :work, default: 25, type: :numeric, aliases: "-w",
       banner: "Minutes to work"
     option :rest, default: 5, type: :numeric, aliases: "-r",
@@ -15,6 +16,8 @@ module Tomato
         Pomodoro.new(subject, options[:work], options[:rest]),
         Ambiance.new(config.ambiance[options[:ambiance]])
       )
+
+
       Signal.trap("INT") do
         tomato.cancel
         exit
@@ -22,10 +25,12 @@ module Tomato
       tomato.start
     end
 
+
     desc "log", "Show log of completed tomatos"
     def log
       puts Log.new(config.log_path).to_s
     end
+
 
     desc "install", "Create an empty config"
     def install
