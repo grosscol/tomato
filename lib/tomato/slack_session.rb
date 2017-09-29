@@ -59,7 +59,7 @@ module Tomato
       end
       query_string << "token=#{token}"
       cmd = "curl '#{request_url}?#{query_string.join("&")}' > /dev/null 2>&1"
-      system(cmd)
+      IO.popen(cmd)
     end
 
     def dnd_message

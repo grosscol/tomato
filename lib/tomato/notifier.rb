@@ -9,11 +9,11 @@ module Tomato
     private
 
     def send_notification(message)
-      `notify-send --urgency=normal "Tomato" "#{message}"`
+      IO.popen("notify-send --urgency=normal 'Tomato' '#{message}'")
     end
 
     def play_sound(sound_path)
-      `paplay #{sound_path}`
+      IO.popen("paplay #{sound_path}")
     end
   end
 
