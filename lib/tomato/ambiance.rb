@@ -1,12 +1,14 @@
+require "pathname"
+
 module Tomato
 
   class Ambiance
     def initialize(path)
-      @path = path
+      @path = Pathname.new(path.to_s)
     end
 
     def start
-      return unless File.exist? path
+      return unless path.exist?
       @pid = Process.spawn("#{player} #{path}", out: "/dev/null", err: "/dev/null")
     end
 
@@ -20,7 +22,7 @@ module Tomato
     attr_reader :path, :pid
 
     def player
-      case File.extname path
+      case path.extname
       when ".mp3", ".mpg"
         "mpg123"
       when ".ogg"
