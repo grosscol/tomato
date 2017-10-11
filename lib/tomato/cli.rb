@@ -32,6 +32,12 @@ module Tomato
     end
 
 
+    desc "version", "Show the gem version"
+    def version
+      puts VERSION
+    end
+
+
     desc "install", "Create an empty config"
     def install
       if File.exist?(Tomato.config_path)
